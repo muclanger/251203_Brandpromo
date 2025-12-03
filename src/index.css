@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+@theme {
+  /* Hier definieren wir Ihre Brand-Farben direkt im CSS */
+  --color-brand: #fe6600;
+  --color-brand-hover: #e55c00;
+  
+  /* Schriftart */
+  --font-sans: 'Inter', sans-serif;
+}
+
+/* Globale Einstellungen */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #1a1a1a;
+  color: #ffffff;
+  margin: 0;
+  font-family: var(--font-sans);
+}

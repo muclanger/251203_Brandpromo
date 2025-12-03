@@ -1,0 +1,75 @@
+body {
+    font-family: 'Lato', sans-serif;
+    background-color: black;
+    margin: 0;
+    padding: 0;
+    color: white;
+}
+
+.container {
+    width: 100%;
+    margin: auto;
+    overflow: hidden;
+}
+
+.balken {
+    background: linear-gradient(to bottom, #575756 50%, black 50%);
+    text-align: center;
+    padding: 20px;
+    margin-top: 10px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.inhalt {
+    display: none;
+    padding: 20px;
+    background-color: #333;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.inhalt img {
+    max-width: 100%;  /* Maximale Breite des Bildes auf 100% des Elternelements setzen */
+    height: auto;     /* Höhe automatisch anpassen, um das Seitenverhältnis beizubehalten */
+    display: block;   /* Block-Level-Element, um unerwünschte Ränder zu vermeiden */
+    margin: 0 auto;   /* Zentrieren des Bildes im Container */
+}
+
+.download {
+    display: none;
+    margin: 10px auto;
+    padding: 10px 20px;
+    background-color: #84754e; /* Hintergrundfarbe des Buttons */
+    color: black; /* Schriftfarbe */
+    border: none;
+    cursor: pointer;
+    text-align: center;
+}
+
+.farben-container {
+    display: flex;
+    flex-wrap: wrap; /* Ermöglicht das Umfließen der Elemente */
+    justify-content: center; /* Zentriert die Elemente horizontal */
+}
+
+.farbe {
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-basis: 30%; /* Setzt die Basisgröße jedes .farbe-Elements */
+}
+
+.farbquadrat {
+    width: 100px;
+    height: 100px;
+    border: 1px solid #000;
+}
+
+.farbinfos {
+    margin-top: 10px;
+}
+
+
+/* Weitere individuelle Stile */
