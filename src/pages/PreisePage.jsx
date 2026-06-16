@@ -18,12 +18,23 @@ function computeVideoPrice(cfg) {
     return 1150 + extraBlocks * 50;
   };
 
+  const computeAiVideoCost = (minutes) => {
+    if (minutes < 1) return 50;
+    if (minutes <= 5) return 150;
+    if (minutes <= 10) return 400;
+    // Jede weitere 5 Minuten kosten 150€
+    const extraBlocks = Math.floor((minutes - 10) / 5);
+    return 400 + extraBlocks * 150;
+  };
+
   const base = basePriceFromMinutes(cfg.minutes);
   const subtitles = cfg.subtitles ? base * 0.10 : 0;
   const motion = cfg.motionGraphics ? roundDownTo10(base * 0.25) : 0;
-  const materialUpcharge = cfg.materialSource === "create" ? Math.max(100, roundDownTo10(base * 0.5)) : 0;
+  const materialUpcharge = cfg.materialSource === "create" ? Math.max(100, roundDownTo10(base * 1.0)) : 0;
   const design = cfg.designType === "none" ? 0 : (cfg.designType === "thumbnail" ? 50 : 100);
   const shootDaysCost = cfg.shootDays && cfg.shootDays > 0 ? (500 + Math.max(0, cfg.shootDays - 1) * 400) : 0;
+  const equipmentCost = (cfg.shootDays > 0 && cfg.equipmentRental) ? cfg.shootDays * 100 : 0;
+  const aiVideoCost = cfg.aiVideo ? computeAiVideoCost(cfg.minutes) : 0;
 
   const extraRevisions = Math.max(0, (cfg.revisionsTotal || 2) - 2);
   let revisionsCost = 0;
@@ -33,18 +44,20 @@ function computeVideoPrice(cfg) {
   }
 
   const automation = AUTOMATION_PRICE[cfg.automationLevel] || 0;
-  const subtotal = Math.round(base + subtitles + motion + materialUpcharge + design + shootDaysCost + revisionsCost + automation);
+  const subtotal = Math.round(base + subtitles + motion + materialUpcharge + design + shootDaysCost + equipmentCost + aiVideoCost + revisionsCost + automation);
 
   const lines = [
     { label: "Videopreis (nach Länge)", amount: base },
   ];
   if (cfg.subtitles) lines.push({ label: "Untertitel (10%)", amount: Math.round(subtitles) });
   if (cfg.motionGraphics) lines.push({ label: "Animationen (25%)", amount: motion });
-  if (materialUpcharge) lines.push({ label: "Videomaterial-Erstellung (50%)", amount: materialUpcharge });
+  if (materialUpcharge) lines.push({ label: "Videomaterial-Erstellung (100%)", amount: materialUpcharge });
   if (cfg.materialSource === 'create') lines.push({ label: "Hinweis: Eventuelles Stockfootage extra", note: true });
   if (cfg.designType !== "none") lines.push({ label: "Grafikdesign (pauschal)", amount: design });
   if (extraRevisions > 0) lines.push({ label: `Korrekturschleifen (${cfg.revisionsTotal} gesamt)`, amount: revisionsCost });
   if (shootDaysCost > 0) lines.push({ label: `Drehtag(e) (${cfg.shootDays}×)`, amount: shootDaysCost });
+  if (equipmentCost > 0) lines.push({ label: `Equipment-Ausleihe (${cfg.shootDays}× Tage)`, amount: equipmentCost });
+  if (aiVideoCost > 0) lines.push({ label: "KI-Videoerstellung", amount: aiVideoCost });
   if (automation) lines.push({ label: "Automatisierung", amount: automation });
 
   return { total: subtotal, lines };
@@ -99,6 +112,7 @@ const VideoCalculator = () => {
   const [config, setConfig] = useState({
     minutes: 1, subtitles: false, motionGraphics: false, materialSource: "existing",
     revisionsTotal: 2, designType: "none", automationLevel: "none", shootDays: 0,
+    equipmentRental: false, aiVideo: false,
   });
 
   const price = useMemo(() => computeVideoPrice(config), [config]);
@@ -164,26 +178,55 @@ const VideoCalculator = () => {
             </div>
 
             {config.materialSource === 'create' && (
-              <div className="mt-4 pt-4 border-t border-white/10">
+              <div className="mt-4 pt-4 border-t border-white/10 space-y-4">
                  <div className="flex items-center gap-3">
                    <input
                       type="checkbox"
                       checked={config.shootDays > 0}
-                      onChange={() => setConfig(p=>({...p, shootDays: p.shootDays > 0 ? 0 : 1}))}
+                      onChange={() => setConfig(p=>({...p, shootDays: p.shootDays > 0 ? 0 : 1, equipmentRental: false}))}
                       className="w-5 h-5 rounded"
                       style={{ accentColor: 'var(--brand)' }}
                    />
                    <span className="text-sm">Drehtag(e) benötigt?</span>
                  </div>
                  {config.shootDays > 0 && (
-                   <div className="mt-2 flex items-center gap-2">
-                     <input
-                       type="number" min="1" max="10"
-                       value={config.shootDays}
-                       onChange={(e)=>setConfig(p=>({...p, shootDays: Math.max(1, parseInt(e.target.value)||1)}))}
-                       className="bg-bg-card border border-white/20 rounded p-2 w-16 text-center focus:border-brand outline-none"
-                     />
-                     <span className="text-xs text-gray-400">Tage (1. Tag 500€, weitere 400€)</span>
+                   <div className="ml-8 space-y-3">
+                     <div className="flex items-center gap-2">
+                       <input
+                         type="number" min="1" max="10"
+                         value={config.shootDays}
+                         onChange={(e)=>setConfig(p=>({...p, shootDays: Math.max(1, parseInt(e.target.value)||1)}))}
+                         className="bg-bg-card border border-white/20 rounded p-2 w-16 text-center focus:border-brand outline-none"
+                       />
+                       <span className="text-xs text-gray-400">Tage (1. Tag 500€, weitere 400€)</span>
+                     </div>
+                     <div className="flex items-center gap-3">
+                       <input
+                          type="checkbox"
+                          checked={config.equipmentRental}
+                          onChange={() => setConfig(p=>({...p, equipmentRental: !p.equipmentRental}))}
+                          className="w-5 h-5 rounded"
+                          style={{ accentColor: 'var(--brand)' }}
+                       />
+                       <span className="text-sm">Equipment mit ausleihen (100€/Tag)</span>
+                     </div>
+                   </div>
+                 )}
+
+                 <div className="flex items-center gap-3 pt-2">
+                   <input
+                      type="checkbox"
+                      checked={config.aiVideo}
+                      onChange={() => setConfig(p=>({...p, aiVideo: !p.aiVideo}))}
+                      className="w-5 h-5 rounded"
+                      style={{ accentColor: 'var(--brand)' }}
+                   />
+                   <span className="text-sm">KI-Videoerstellung benötigt?</span>
+                 </div>
+                 {config.aiVideo && (
+                   <div className="ml-8 text-xs text-gray-400 space-y-1">
+                     <div>{'<1 Min: 50€ | 1-5 Min: 150€ | 10 Min: 400€'}</div>
+                     <div>Jede weitere 5 Minuten: +150€</div>
                    </div>
                  )}
               </div>
@@ -225,6 +268,10 @@ const VideoCalculator = () => {
             <h4 className="text-2xl font-bold mb-6">Geschätzter Preis</h4>
 
             <div className="space-y-3 mb-6 text-sm">
+              <div className="flex justify-between border-b border-white/10 pb-2">
+                <span className="text-gray-300">Briefing (25€ / 30 Min. Meeting)</span>
+                <span className="font-mono text-white">~25 €</span>
+              </div>
               {price.lines.map((l, i) => (
                 l.note ?
                 <p key={i} className="text-xs text-gray-400 italic mt-2">{l.label}</p> :
@@ -241,6 +288,7 @@ const VideoCalculator = () => {
                 <div className="text-4xl font-black text-brand">{price.total}€</div>
               </div>
               <p className="text-xs text-gray-500">zzgl. gesetzl. MwSt.</p>
+              <p className="text-xs text-gray-500">zzgl. Meetingpauschale 25€ / 30 Minuten</p>
             </div>
 
             <button className="btn-brand w-full py-4 rounded-lg font-bold">
@@ -389,6 +437,10 @@ const WebCalculator = () => {
             <h4 className="text-2xl font-bold mb-6">Geschätzter Preis</h4>
 
             <div className="space-y-3 mb-6 text-sm">
+              <div className="flex justify-between border-b border-white/10 pb-2">
+                <span className="text-gray-300">Briefing (25€ / 30 Min. Meeting)</span>
+                <span className="font-mono text-white">~25 €</span>
+              </div>
               {price.lines.map((l, i) => (
                 <div key={i} className="flex justify-between border-b border-white/10 pb-2 last:border-0">
                   <span className="text-gray-300">{l.label}</span>
@@ -403,6 +455,7 @@ const WebCalculator = () => {
                 <div className="text-4xl font-black text-brand">{price.total}€</div>
               </div>
               <p className="text-xs text-gray-500">zzgl. gesetzl. MwSt.</p>
+              <p className="text-xs text-gray-500">zzgl. Meetingpauschale 25€ / 30 Minuten</p>
             </div>
 
             <button className="btn-brand w-full py-4 rounded-lg font-bold">

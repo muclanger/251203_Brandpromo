@@ -41,3 +41,9 @@ export const InstagramIcon = (props) => (
 export const MailIcon = (props) => (
   <Icon {...props}><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></Icon>
 );
+export const MonitorIcon = (props) => (
+  <Icon {...props}><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></Icon>
+);
+export const MegaphoneIcon = (props) => (
+  <Icon {...props}><path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></Icon>
+);

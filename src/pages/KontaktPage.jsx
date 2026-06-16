@@ -9,8 +9,16 @@ export default function KontaktPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    alert("Vielen Dank für deine Nachricht! Wir melden uns bald bei dir.");
+
+    // Erstelle mailto Link mit den Formulardaten
+    const subject = encodeURIComponent(`Kontaktanfrage von ${formData.name}`);
+    const body = encodeURIComponent(`Name: ${formData.name}\nE-Mail: ${formData.email}\n\nNachricht:\n${formData.nachricht}`);
+
+    // Öffne E-Mail-Client
+    window.location.href = `mailto:info@brandpromo.de?subject=${subject}&body=${body}`;
+
+    // Erfolgsbenachrichtigung
+    alert("Dein E-Mail-Client wird geöffnet. Bitte sende die Nachricht ab.");
     setFormData({ name: "", email: "", nachricht: "" });
   };
 
@@ -81,24 +89,36 @@ export default function KontaktPage() {
             </div>
             <div className="glass rounded-2xl p-6">
               <h3 className="font-bold text-lg mb-2">📱 Telefon</h3>
-              <a href="tel:+491234567890" className="text-brand hover:underline">
-                +49 123 456 7890
+              <a href="tel:+4917644449253" className="text-brand hover:underline">
+                +49 176 4444 9253
               </a>
             </div>
             <div className="glass rounded-2xl p-6">
               <h3 className="font-bold text-lg mb-2">📍 Adresse</h3>
               <p className="text-text-muted">
-                Musterstraße 123<br />
-                12345 Musterstadt<br />
-                Deutschland
+                Tom Langer<br />
+                Adlzreiterstraße 14<br />
+                80337 München
               </p>
             </div>
             <div className="glass rounded-2xl p-6">
               <h3 className="font-bold text-lg mb-4">🌐 Social Media</h3>
-              <div className="flex gap-4">
-                <a href="#" className="text-brand hover:text-brand-hover transition-colors">Instagram</a>
-                <a href="#" className="text-brand hover:text-brand-hover transition-colors">LinkedIn</a>
-                <a href="#" className="text-brand hover:text-brand-hover transition-colors">Twitter</a>
+              <div className="flex flex-wrap gap-4 justify-center">
+                <a href="https://www.facebook.com/Jean.Baptiste.Grenouille.Langer" target="_blank" rel="noopener noreferrer" className="transition-transform hover:scale-110">
+                  <img src="/img/stock/pack-short/icons8-facebook-circled-100.png" alt="Facebook" className="w-12 h-12" />
+                </a>
+                <a href="https://www.instagram.com/brandpromo.de?igsh=MW1vamphcXV1Z2Fraw==" target="_blank" rel="noopener noreferrer" className="transition-transform hover:scale-110">
+                  <img src="/img/stock/pack-short/icons8-instagram-100.png" alt="Instagram" className="w-12 h-12" />
+                </a>
+                <a href="https://www.youtube.com/@thomaslanger3513" target="_blank" rel="noopener noreferrer" className="transition-transform hover:scale-110">
+                  <img src="/img/stock/pack-short/icons8-youtube-100.png" alt="YouTube" className="w-12 h-12" />
+                </a>
+                <a href="https://www.linkedin.com/in/thomas-langer-35a767156/" target="_blank" rel="noopener noreferrer" className="transition-transform hover:scale-110">
+                  <img src="/img/stock/pack-short/icons8-linkedin-100.png" alt="LinkedIn" className="w-12 h-12" />
+                </a>
+                <a href="https://wa.me/4917644449253" target="_blank" rel="noopener noreferrer" className="transition-transform hover:scale-110">
+                  <img src="/img/stock/pack-short/icons8-whatsapp-100.png" alt="WhatsApp" className="w-12 h-12" />
+                </a>
               </div>
             </div>
           </div>

@@ -8,7 +8,7 @@ const Footer = () => (
         <Link to="/" className="text-2xl font-black tracking-tighter text-white mb-4 block">brand<span className="text-brand">Promo</span></Link>
         <p className="text-gray-500 max-w-sm text-sm">
           Ihr Partner für digitale Medienproduktion und Automatisierung in München.
-          Wir bringen Qualität und Effizienz zusammen.
+          Ich bringe Qualität und Effizienz zusammen.
         </p>
       </div>
       <div>

@@ -13,6 +13,7 @@ import PreisePage from "./pages/PreisePage";
 import PortfolioPage from "./pages/PortfolioPage";
 import KontaktPage from "./pages/KontaktPage";
 import ImpressumPage from "./pages/ImpressumPage";
+import DatenschutzPage from "./pages/DatenschutzPage";
 
 // --- Main App Component ---
 export default function App() {
@@ -100,6 +101,7 @@ export default function App() {
           <Route path="/portfolio" element={<PortfolioPage />} />
           <Route path="/kontakt" element={<KontaktPage />} />
           <Route path="/impressum" element={<ImpressumPage />} />
+          <Route path="/datenschutz" element={<DatenschutzPage />} />
         </Routes>
       </main>
 

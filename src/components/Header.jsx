@@ -11,8 +11,8 @@ const Header = ({ scrolled, onMenuToggle }) => {
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "bg-[#1a1a1a]/90 backdrop-blur-md shadow-lg border-b border-white/5" : "bg-transparent"}`}>
       <div className="container flex justify-between items-center py-4">
         <Link to="/" className="flex items-center gap-2 group">
-          <img src="/img/homepage1/logo/logo.png" alt="brandPromo" className="h-10 w-auto transition-transform group-hover:scale-105" onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'block' }} />
-          <span className="text-2xl font-black hidden text-white tracking-tighter">brand<span className="text-brand">Promo</span></span>
+          <img src="/img/logo/BP-white.svg" alt="BrandPromo" className="h-10 w-auto transition-transform group-hover:scale-105" />
+          <span className="text-2xl font-black text-white tracking-tighter">brand<span className="text-brand">Promo</span></span>
         </Link>
 
         <nav className="hidden md:flex items-center space-x-8 text-sm font-medium">

@@ -10,9 +10,9 @@ export default function ImpressumPage() {
           <section>
             <h2 className="text-2xl font-bold mb-4 text-brand">Angaben gemäß § 5 TMG</h2>
             <p className="text-text-muted leading-relaxed">
-              BrandPromo GmbH<br />
-              Musterstraße 123<br />
-              12345 Musterstadt<br />
+              Thomas Langer<br />
+              Adlzreiterstraße 14<br />
+              80337 München<br />
               Deutschland
             </p>
           </section>
@@ -20,7 +20,7 @@ export default function ImpressumPage() {
           <section>
             <h2 className="text-2xl font-bold mb-4 text-brand">Vertreten durch</h2>
             <p className="text-text-muted leading-relaxed">
-              Max Mustermann<br />
+              Thomas Langer<br />
               Geschäftsführer
             </p>
           </section>
@@ -28,34 +28,17 @@ export default function ImpressumPage() {
           <section>
             <h2 className="text-2xl font-bold mb-4 text-brand">Kontakt</h2>
             <p className="text-text-muted leading-relaxed">
-              Telefon: +49 123 456 7890<br />
+              Telefon: +49 176 4444 9253<br />
               E-Mail: info@brandpromo.de
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-2xl font-bold mb-4 text-brand">Registereintrag</h2>
-            <p className="text-text-muted leading-relaxed">
-              Eintragung im Handelsregister<br />
-              Registergericht: Amtsgericht Musterstadt<br />
-              Registernummer: HRB 12345
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-2xl font-bold mb-4 text-brand">Umsatzsteuer-ID</h2>
-            <p className="text-text-muted leading-relaxed">
-              Umsatzsteuer-Identifikationsnummer gemäß § 27 a Umsatzsteuergesetz:<br />
-              DE123456789
             </p>
           </section>
 
           <section>
             <h2 className="text-2xl font-bold mb-4 text-brand">Verantwortlich für den Inhalt</h2>
             <p className="text-text-muted leading-relaxed">
-              Max Mustermann<br />
-              Musterstraße 123<br />
-              12345 Musterstadt
+              Thomas Langer<br />
+              Adlzreiterstraße 14<br />
+              80337 München
             </p>
           </section>
 
